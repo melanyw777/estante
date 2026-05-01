@@ -9,6 +9,9 @@ package edu.sisinf.estante.config;
  * @param usuario Usuario de acceso
  * @param password Contraseña
  */
+/**
+ * Configuración inmutable para la conexión a base de datos.
+ */
 public record DBConfig(
         String host,
         int puerto,
