@@ -79,6 +79,11 @@ public class ResultadoQuery {
         totalFilas++;
     }
     
+    //Devuelve true si no hay filas en el resultado
+    public boolean estaVacio() {
+        return filas.isEmpty();
+    }
+
     public Tipo getTipo() {
         return tipo;
     }
