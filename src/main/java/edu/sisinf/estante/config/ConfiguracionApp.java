@@ -67,3 +67,5 @@ public class ConfiguracionApp {
         directorioHome().toFile().mkdirs();
     }
 }// Verificación de paquete y ubicación para Issue #242
+// Verificación de paquete y ubicación para Issue #242
+// Verificación de paquete y ubicación para Issue #242
