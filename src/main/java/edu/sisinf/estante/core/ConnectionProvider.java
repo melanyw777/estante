@@ -45,21 +45,18 @@ public class ConnectionProvider {
     }
 
     /**
-     * Ejecuta una sentencia SELECT y retorna el resultado encapsulado
-     * en un {@link QueryResult}.
+     * Ejecuta una sentencia SELECT y retorna el resultado encapsulado en un {@link QueryResult}.
      *
-     * @param connection conexión JDBC activa
-     * @param sql sentencia SELECT
-     * @return resultado de la query
+     * @param connection conexión JDBC activa sobre la que se ejecuta la consulta
+     * @param sql        sentencia SQL de lectura (debe ser SELECT)
+     * @return {@link QueryResult} con las columnas y filas del resultado
+     * @throws IllegalArgumentException si la sentencia no es un SELECT
+     * @throws ErrorQuery               si ocurre un error durante la ejecución SQL
      */
-    public static QueryResult executeSelect(
-            Connection connection,
-            String sql
-    ) {
-
+    public static QueryResult executeSelect(Connection connection, String sql) throws IllegalArgumentException, ErrorQuery {
         if (!SqlValidator.esLectura(sql)) {
             throw new IllegalArgumentException(
-                    "executeSelect() solo acepta sentencias SELECT."
+                    "executeSelect() solo acepta sentencias SELECT. Use executeUpdate() para escrituras."
             );
         }
 
@@ -67,7 +64,6 @@ public class ConnectionProvider {
         ResultSet resultSet = null;
 
         try {
-
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
 
@@ -75,79 +71,54 @@ public class ConnectionProvider {
             int columnCount = metadata.getColumnCount();
 
             List<String> columns = new ArrayList<>();
-
             for (int i = 1; i <= columnCount; i++) {
                 columns.add(metadata.getColumnName(i));
             }
 
             List<List<Object>> rows = new ArrayList<>();
-
             while (resultSet.next()) {
-
                 List<Object> row = new ArrayList<>();
-
                 for (int i = 1; i <= columnCount; i++) {
                     row.add(resultSet.getObject(i));
                 }
-
                 rows.add(row);
             }
 
             return QueryResult.of(columns, rows);
 
         } catch (SQLException e) {
-
-            throw new ErrorQuery(
-                    "Error al ejecutar SELECT: " + e.getMessage(),
-                    e
-            );
-
+            throw new ErrorQuery("Error al ejecutar la sentencia SELECT: " + e.getMessage(), e);
         } finally {
-
             if (resultSet != null) {
-                try {
-                    resultSet.close();
-                } catch (SQLException ignored) {
-                }
+                try { resultSet.close(); } catch (SQLException ignored) {}
             }
-
             if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ignored) {
-                }
+                try { statement.close(); } catch (SQLException ignored) {}
             }
         }
     }
 
     /**
-     * Ejecuta una sentencia INSERT, UPDATE o DELETE.
+     * Ejecuta una sentencia de escritura (INSERT, UPDATE, DELETE) y retorna
+     * el número de filas afectadas.
      *
-     * @param connection conexión JDBC activa
-     * @param sql sentencia SQL de escritura
-     * @return filas afectadas
+     * @param connection conexión JDBC activa sobre la que se ejecuta la sentencia
+     * @param sql        sentencia SQL de escritura (INSERT, UPDATE o DELETE)
+     * @return número de filas afectadas por la sentencia
+     * @throws IllegalArgumentException si la sentencia es un SELECT
+     * @throws ErrorQuery               si ocurre un error durante la ejecución SQL
      */
-    public static int executeUpdate(
-            Connection connection,
-            String sql
-    ) {
-
+    public static int executeUpdate(Connection connection, String sql) throws IllegalArgumentException, ErrorQuery {
         if (SqlValidator.esLectura(sql)) {
             throw new IllegalArgumentException(
-                    "executeUpdate() no acepta SELECT."
+                    "executeUpdate() no acepta sentencias SELECT. Use executeQuery() para lecturas."
             );
         }
 
         try (Statement statement = connection.createStatement()) {
-
             return statement.executeUpdate(sql);
-
         } catch (SQLException e) {
-
-            throw new ErrorQuery(
-                    "Error al ejecutar escritura: " + e.getMessage(),
-                    e
-            );
+            throw new ErrorQuery("Error al ejecutar la sentencia de escritura: " + e.getMessage(), e);
         }
     }
 }

@@ -5,6 +5,8 @@
 package edu.sisinf.estante.config;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -16,8 +18,8 @@ import java.nio.file.Paths;
  * <p>La aplicacion almacena sus archivos en un directorio oculto dentro del
  * home del usuario:</p>
  * <ul>
- *   <li>Linux / macOS: {@code ~/.estante/}</li>
- *   <li>Windows: {@code C:\Users\<usuario>\.estante\}</li>
+ * <li>Linux / macOS: {@code ~/.estante/}</li>
+ * <li>Windows: {@code C:\Users\<usuario>\.estante\}</li>
  * </ul>
  */
 public class ConfiguracionApp {
@@ -64,6 +66,10 @@ public class ConfiguracionApp {
      * <p>Solo crea el directorio; no crea ningun archivo dentro de el.</p>
      */
     public static void asegurarDirectorioHome() {
-        directorioHome().toFile().mkdirs();
+        try {
+            Files.createDirectories(directorioHome());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
