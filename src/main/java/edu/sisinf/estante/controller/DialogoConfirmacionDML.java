@@ -52,8 +52,8 @@ public class DialogoConfirmacionDML {
         Label label = new Label("Vas a ejecutar la siguiente consulta:");
 
         TextArea textArea = new TextArea(sql);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
+        textArea.setEditable(false);    // Impide que el usuario modifique la consulta SQL en el cuadro de dialogo
+        textArea.setWrapText(true);    // Garantiza que las sentencias largas sean completamente visibles
         textArea.setPrefRowCount(6);
 
         VBox vbox = new VBox(8, label, textArea);
