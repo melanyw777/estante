@@ -16,8 +16,8 @@ import java.nio.file.Paths;
  * <p>La aplicacion almacena sus archivos en un directorio oculto dentro del
  * home del usuario:</p>
  * <ul>
- *   <li>Linux / macOS: {@code ~/.estante/}</li>
- *   <li>Windows: {@code C:\Users\<usuario>\.estante\}</li>
+ * <li>Linux / macOS: {@code ~/.estante/}</li>
+ * <li>Windows: {@code C:\Users\<usuario>\.estante\}</li>
  * </ul>
  */
 public class ConfiguracionApp {
@@ -66,6 +66,4 @@ public class ConfiguracionApp {
     public static void asegurarDirectorioHome() {
         directorioHome().toFile().mkdirs();
     }
-}// Verificación de paquete y ubicación para Issue #242
-// Verificación de paquete y ubicación para Issue #242
-// Verificación de paquete y ubicación para Issue #242
+}
