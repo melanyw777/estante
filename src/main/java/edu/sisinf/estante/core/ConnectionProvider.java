@@ -109,12 +109,17 @@ public class ConnectionProvider {
      * @throws IllegalArgumentException si la sentencia es un SELECT
      * @throws ErrorQuery               si ocurre un error durante la ejecución SQL
      */
-   public static int executeUpdate(Connection connection, String sql)
+ public static int executeUpdate(Connection connection, String sql)
         throws IllegalArgumentException, ErrorQuery {
 
-    if (sql == null || sql.trim().toUpperCase().startsWith("SELECT")) {
+    if (sql == null) {
+        throw new IllegalArgumentException("La sentencia SQL no puede ser nula.");
+    }
+
+    if (sql.trim().toUpperCase().startsWith("SELECT")) {
         throw new IllegalArgumentException(
-                "executeUpdate() no permite sentencias SELECT. Use executeSelect() para consultas."
+                "executeUpdate() no permite sentencias SELECT de selección. " +
+                "Use executeSelect() para consultas. Sentencia rechazada: [" + sql + "]"
         );
     }
 
@@ -126,4 +131,4 @@ public class ConnectionProvider {
                 e
         );
     }
-}
+} 
