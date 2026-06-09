@@ -1,34 +1,140 @@
 # Guía de Instalación - DBMS Estante (Java Edition)
+
 Este documento describe los pasos necesarios para configurar el entorno de desarrollo y ejecutar el Administrador de Base de Datos **Estante** de forma local.
 
 ## 1. Requisitos Previos
 Para el despliegue del sistema, asegúrese de contar con:
-- **Lenguaje de Programación:** [Java JDK 21](https://www.oracle.com/java/technologies/downloads/) o superior.
+- **Lenguaje de Programación:** [Java JDK 17](https://www.oracle.com/java/technologies/downloads/) o superior.
 - **Gestor de Dependencias:** [Apache Maven](https://maven.apache.org/) 3.8+.
 - **Sistema Operativo:** Windows 10/11, Linux o macOS.
 - **Motor de BD Interno:** SQLite (Gestionado mediante JDBC).
 
-> **⚠️ Nota sobre JavaFX:** A partir de Java 11, JavaFX **ya no está incluido** en el JDK estándar y debe gestionarse como dependencia externa. En este proyecto, **Maven gestiona JavaFX automáticamente** a través de las dependencias `org.openjfx` (`javafx-controls` y `javafx-fxml` v21.0.2) declaradas en el `pom.xml`. **No es necesario descargar ni instalar JavaFX por separado.**
-
 ## 2. Clonación del Repositorio
 Obtenga el código fuente del motor de base de datos mediante Git:
 ```bash
-git clone https://github.com/sis-inf/estante.git
-cd estante
-```
+## 3. Instalación en Linux (Ubuntu)
 
-## 3. Compilación y Ejecución con Maven
+### Instalar Java 17
 
-Maven resuelve y descarga automáticamente todas las dependencias del proyecto, incluyendo `javafx-controls` y `javafx-fxml` (versión `21.0.2`), sin ninguna configuración adicional de su parte.
-
-Para compilar el proyecto:
 ```bash
-mvn clean compile
+sudo apt update
+sudo apt install openjdk-17-jdk
 ```
 
-Para ejecutar la aplicación:
+### Instalar Maven
+
+```bash
+sudo apt install maven
+```
+
+### Verificar instalación
+
+```bash
+java --version
+mvn --version
+```
+
+### Ejecutar el proyecto
+
 ```bash
 mvn javafx:run
 ```
 
-El comando `mvn javafx:run` utiliza el plugin `org.openjfx:javafx-maven-plugin:0.0.8`, configurado en el `pom.xml` para lanzar la clase principal `edu.sisinf.estante.App`. No es necesario especificar `--module-path` ni `--add-modules` manualmente.
+---
+
+## 4. Instalación en Windows
+
+### Instalar Java JDK 17
+
+Descargue e instale Java JDK 17 desde el sitio oficial de Oracle o Eclipse Temurin.
+
+### Configurar JAVA_HOME
+
+Ejemplo:
+
+```text
+JAVA_HOME=C:\Program Files\Java\jdk-17
+```
+
+Agregue también `%JAVA_HOME%\bin` a la variable `PATH`.
+
+### Instalar Maven
+
+Descargue Maven desde:
+
+https://maven.apache.org/download.cgi
+
+Configure la variable:
+
+```text
+MAVEN_HOME=C:\apache-maven
+```
+
+Agregue también `%MAVEN_HOME%\bin` al `PATH`.
+
+### Verificar instalación
+
+```cmd
+java --version
+mvn --version
+```
+
+### Ejecutar el proyecto
+
+```cmd
+mvn javafx:run
+```
+
+---
+
+## 5. Instalación en macOS
+
+### Instalar Java 17
+
+```bash
+brew install java@17
+```
+
+### Instalar Maven
+
+```bash
+brew install maven
+```
+
+### Verificar instalación
+
+```bash
+java --version
+mvn --version
+```
+
+### Ejecutar el proyecto
+
+```bash
+mvn javafx:run
+```
+
+---
+
+## 6. Verificación de Instalación
+
+Compruebe que Java y Maven estén correctamente configurados:
+
+```bash
+java --version
+mvn --version
+```
+
+Si ambos comandos muestran información de versión sin errores, la instalación se realizó correctamente.
+
+---
+
+## 7. Ejecución de la Aplicación
+
+Una vez configurado el entorno:
+
+```bash
+mvn javafx:run
+```
+
+
