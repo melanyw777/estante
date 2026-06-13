@@ -140,21 +140,14 @@
                   </dependency>
               </dependencies>
               <configuration>
-                  <configLocation>google_checks.xml</configLocation>     <!-- ruleset built-in, no requiere archivo local -->
-                  <consoleOutput>true</consoleOutput>                     <!-- muestra violaciones en la terminal -->
-                  <failsOnError>false</failsOnError>                      <!-- no bloquea el build (fase inicial) -->
-                  <violationSeverity>warning</violationSeverity>          <!-- trata todo como advertencia -->
-                  <outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>  <!-- ruta del reporte XML -->
-                  <outputFileFormat>xml</outputFileFormat>                <!-- formato para que CI lo suba como artefacto -->
-                  <includeTestSourceDirectory>true</includeTestSourceDirectory>  <!-- también analiza src/test/java -->
-                  <checkstyleRules>
-                      <module name="Checker">
-                          <property name="severity" value="warning"/>
-                          <module name="LineLength">
-                              <property name="max" value="120"/>          <!-- override: 120 en vez de los 100 del estándar Google -->
-                          </module>
-                      </module>
-                  </checkstyleRules>
+                  <configLocation>google_checks.xml</configLocation>
+                  <consoleOutput>true</consoleOutput>
+                  <failsOnError>false</failsOnError>
+                  <violationSeverity>warning</violationSeverity>
+                  <outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
+                  <outputFileFormat>xml</outputFileFormat>
+                  <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                  <propertyExpansion>checkstyle.maxLineLength=120</propertyExpansion>
               </configuration>
           </plugin>
         </plugins>
