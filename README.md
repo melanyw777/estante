@@ -86,3 +86,30 @@ Ver [CONTRIBUTING.md](CONTRIBUTING.md)
 ## Licencia
 MIT — ver [LICENSE](LICENSE)
 
+# Estante 📚
+
+> Sistema de gestión y organización para bibliotecas y colecciones personales.
+
+<!-- Badge del CI -->
+[![validar-pr](https://github.com/sis-inf/estante/actions/workflows/validar-pr.yml/badge.svg)](https://github.com/sis-inf/estante/actions/workflows/validar-pr.yml)
+
+---
+
+## 🚀 Características Principal
+El sistema cuenta con un motor flexible y soporte robusto para la gestión de datos:
+* **Compatibilidad Multi-Base de Datos:** Soporte completo para motores relacionales como **MySQL**, **SQLite** y **PostgreSQL**.
+* **Exportación de Datos:** Herramientas integradas para exportar tus reportes y colecciones directamente a formatos **CSV**, **JSON** y **Excel**.
+
+---
+
+## 🛠️ Compilación Rápida
+
+Para compilar y ejecutar este proyecto de forma local utilizando Maven, ejecuta los siguientes comandos en tu terminal:
+
+```bash
+# 1. Compilar el proyecto y descargar dependencias
+mvn compile
+
+# 2. Levantar la aplicación con JavaFX
+mvn javafx:run
+
