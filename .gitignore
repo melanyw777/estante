@@ -34,6 +34,7 @@ target/
 # IDEs / Editores
 .vscode/
 .idea/
+*.iml
 *.swp
 *.swo
 
@@ -62,6 +63,7 @@ htmlcov/
 .classpath
 .project
 .settings/
+*.class
 
 # Python
 venv/

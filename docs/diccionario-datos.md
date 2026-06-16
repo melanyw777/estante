@@ -65,6 +65,72 @@ Registra todas las consultas SQL ejecutadas dentro del sistema. Permite al usuar
 
 ---
 
+# Record: FAVORITO_QUERY
+
+Almacena consultas SQL marcadas como favoritas por el usuario para reutilizarlas rápidamente.
+
+| Nombre Campo     | Tipo de Dato | Descripción                                   | Restricciones |
+| ---------------- | ------------ | --------------------------------------------- | ------------- |
+| `nombre`         | VARCHAR(100) | Nombre descriptivo de la consulta favorita    | NOT NULL      |
+| `sql`            | TEXT         | Sentencia SQL almacenada                      | NOT NULL      |
+| `motor`          | VARCHAR(50)  | Motor de base de datos asociado a la consulta | NOT NULL      |
+| `fecha_creacion` | DATETIME     | Fecha y hora de creación del favorito         | NOT NULL      |
+
+---
+
+# Record: ENTRADA_HISTORIAL
+
+Representa una entrada individual del historial de consultas ejecutadas por el usuario.
+
+| Nombre Campo  | Tipo de Dato | Descripción                                       | Restricciones |
+| ------------- | ------------ | ------------------------------------------------- | ------------- |
+| `timestamp`   | DATETIME     | Fecha y hora de ejecución de la consulta          | NOT NULL      |
+| `query`       | TEXT         | Consulta SQL ejecutada                            | NOT NULL      |
+| `base_datos`  | VARCHAR(100) | Base de datos sobre la que se ejecutó la consulta | NOT NULL      |
+| `duracion_ms` | INTEGER      | Tiempo de ejecución en milisegundos               | NOT NULL      |
+| `exitosa`     | BOOLEAN      | Indica si la ejecución fue exitosa                | NOT NULL      |
+
+---
+
+# Record: COLUMNA_INFO
+
+Contiene información descriptiva sobre una columna de una tabla de base de datos.
+
+| Nombre Campo    | Tipo de Dato | Descripción                                | Restricciones |
+| --------------- | ------------ | ------------------------------------------ | ------------- |
+| `nombre`        | VARCHAR(100) | Nombre de la columna                       | NOT NULL      |
+| `tipo_sql`      | VARCHAR(50)  | Tipo de dato SQL de la columna             | NOT NULL      |
+| `nullable`      | BOOLEAN      | Indica si la columna admite valores nulos  | NOT NULL      |
+| `valor_default` | VARCHAR(255) | Valor por defecto definido para la columna | NULL          |
+
+---
+
+# Record: RESULTADO_PRUEBA
+
+Almacena el resultado obtenido durante la ejecución de pruebas o validaciones del sistema.
+
+| Nombre Campo    | Tipo de Dato | Descripción                                      | Restricciones |
+| --------------- | ------------ | ------------------------------------------------ | ------------- |
+| `nombre_prueba` | VARCHAR(100) | Nombre de la prueba ejecutada                    | NOT NULL      |
+| `estado`        | VARCHAR(20)  | Resultado de la prueba (EXITOSA o FALLIDA)       | NOT NULL      |
+| `mensaje`       | TEXT         | Mensaje descriptivo del resultado obtenido       | NULL          |
+| `duracion_ms`   | INTEGER      | Tiempo de ejecución de la prueba en milisegundos | NOT NULL      |
+
+---
+
+# Record: IMPORTACION_RESULTADO
+
+Representa el resultado de una operación de importación de datos desde archivos externos.
+
+| Nombre Campo           | Tipo de Dato | Descripción                                                | Restricciones |
+| ---------------------- | ------------ | ---------------------------------------------------------- | ------------- |
+| `archivo`              | VARCHAR(255) | Nombre del archivo importado                               | NOT NULL      |
+| `registros_procesados` | INTEGER      | Cantidad total de registros procesados                     | NOT NULL      |
+| `registros_importados` | INTEGER      | Cantidad de registros importados correctamente             | NOT NULL      |
+| `errores`              | INTEGER      | Cantidad de errores detectados durante la importación      | NOT NULL      |
+| `mensaje`              | TEXT         | Información adicional sobre el resultado de la importación | NULL          |
+
+---
 # Relaciones entre Tablas
 
 ```text

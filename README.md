@@ -2,6 +2,33 @@
 
 Gestor de base de datos con interfaz gráfica desarrollado en Java y JavaFX.
 
+## Características
+
+
+🗄️ **Motores soportados**
+
+* MySQL
+* SQLite
+* PostgreSQL
+
+📤 **Exportación**
+
+* CSV
+* JSON
+* Excel
+
+✍️ **Editor SQL**
+
+* Historial de consultas
+* Favoritos
+* Resaltado de sintaxis
+* Generador de SQL
+
+🛡️ **Seguridad y ejecución**
+
+* Validación de operaciones DML
+* Ejecución asíncrona de consultas
+
 ## ¿Qué es?
 
 Estante es una aplicación que permite conectarse, explorar y administrar bases de datos MySQL mediante una interfaz gráfica intuitiva desarrollada con Java y JavaFX.
@@ -31,15 +58,18 @@ Estante ayuda a resolver:
 - Un servidor MySQL en ejecución (local o remoto)
 # Pasos
 
+
+```bash
 # 1. Clona el repositorio:
 git clone https://github.com/tu-usuario/estante.git
 cd estante
 
 # 2. Compila el proyecto:
-javac --module-path /ruta/a/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -d out src/**/*.java
+mvn compile
 
-# 3. Ejecuta la aplicación:    
-java --module-path /ruta/a/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -cp out Main  
+# 3. Ejecuta la aplicación:
+mvn javafx:run
+``` 
 
 ## Uso rápido
 - Abre Estante y completa los datos de conexión (host, puerto, usuario y contraseña)
@@ -55,5 +85,31 @@ Ver [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Licencia
 MIT — ver [LICENSE](LICENSE)
-## ✨ Cambio final
-README actualizado correctamente.
+
+# Estante 📚
+
+> Sistema de gestión y organización para bibliotecas y colecciones personales.
+
+<!-- Badge del CI -->
+[![validar-pr](https://github.com/sis-inf/estante/actions/workflows/validar-pr.yml/badge.svg)](https://github.com/sis-inf/estante/actions/workflows/validar-pr.yml)
+
+---
+
+## 🚀 Características Principal
+El sistema cuenta con un motor flexible y soporte robusto para la gestión de datos:
+* **Compatibilidad Multi-Base de Datos:** Soporte completo para motores relacionales como **MySQL**, **SQLite** y **PostgreSQL**.
+* **Exportación de Datos:** Herramientas integradas para exportar tus reportes y colecciones directamente a formatos **CSV**, **JSON** y **Excel**.
+
+---
+
+## 🛠️ Compilación Rápida
+
+Para compilar y ejecutar este proyecto de forma local utilizando Maven, ejecuta los siguientes comandos en tu terminal:
+
+```bash
+# 1. Compilar el proyecto y descargar dependencias
+mvn compile
+
+# 2. Levantar la aplicación con JavaFX
+mvn javafx:run
+
