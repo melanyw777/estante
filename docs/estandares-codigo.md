@@ -152,6 +152,192 @@ public class UserService {
 - Una clase por archivo
 - Código organizado y legible
 
+## 🧪 8. Ejemplos de código correcto e incorrecto
+
+Esta sección complementa las reglas anteriores con ejemplos lado a lado (✅ correcto / ❌ incorrecto) para los casos donde el error es más común en la práctica.
+
+### 8.1 Cierre de recursos JDBC
+
+Usar siempre `try-with-resources`, que cierra los recursos automáticamente aunque ocurra una excepción.
+
+#### ✅ Correcto
+
+```java
+public List<User> findAll() throws SQLException {
+  String sql = "SELECT id, name FROM users";
+
+  try (Connection conn = dataSource.getConnection();
+       PreparedStatement stmt = conn.prepareStatement(sql);
+       ResultSet rs = stmt.executeQuery()) {
+
+    List<User> users = new ArrayList<>();
+    while (rs.next()) {
+      users.add(new User(rs.getInt("id"), rs.getString("name")));
+    }
+    return users;
+  }
+}
+```
+
+#### ❌ Incorrecto
+
+```java
+public List<User> findAll() throws SQLException {
+  Connection conn = null;
+  PreparedStatement stmt = null;
+  ResultSet rs = null;
+
+  try {
+    conn = dataSource.getConnection();
+    stmt = conn.prepareStatement("SELECT id, name FROM users");
+    rs = stmt.executeQuery();
+
+    List<User> users = new ArrayList<>();
+    while (rs.next()) {
+      users.add(new User(rs.getInt("id"), rs.getString("name")));
+    }
+    return users;
+  } finally {
+    // Si una de estas líneas lanza excepción, las siguientes no se ejecutan
+    // y el recurso correspondiente queda abierto.
+    rs.close();
+    stmt.close();
+    conn.close();
+  }
+}
+```
+
+### 8.2 Nombres de clases de acceso a datos
+
+Las clases responsables de acceder a datos deben llevar el sufijo `DAO`, que es el estándar reconocido en la industria. Evitar nombres ambiguos o inventados.
+
+#### ✅ Correcto
+
+```java
+public class UserDAO {
+  public User findById(int id) {
+    // ...
+    return null;
+  }
+}
+```
+
+#### ❌ Incorrecto
+
+```java
+public class UserManagador {
+  public User buscarPorId(int id) {
+    // ...
+    return null;
+  }
+}
+```
+
+### 8.3 PreparedStatement vs concatenación de Strings
+
+Usar siempre `PreparedStatement` con parámetros. Concatenar valores directamente en el SQL expone la aplicación a **SQL injection**.
+
+#### ✅ Correcto
+
+```java
+public User findByEmail(String email) throws SQLException {
+  String sql = "SELECT id, name FROM users WHERE email = ?";
+
+  try (Connection conn = dataSource.getConnection();
+       PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+    stmt.setString(1, email);
+
+    try (ResultSet rs = stmt.executeQuery()) {
+      if (rs.next()) {
+        return new User(rs.getInt("id"), rs.getString("name"));
+      }
+      return null;
+    }
+  }
+}
+```
+
+#### ❌ Incorrecto
+
+```java
+public User findByEmail(String email) throws SQLException {
+  // Si email = "x' OR '1'='1", la consulta devuelve TODOS los usuarios.
+  String sql = "SELECT id, name FROM users WHERE email = '" + email + "'";
+
+  try (Connection conn = dataSource.getConnection();
+       Statement stmt = conn.createStatement();
+       ResultSet rs = stmt.executeQuery(sql)) {
+
+    if (rs.next()) {
+      return new User(rs.getInt("id"), rs.getString("name"));
+    }
+    return null;
+  }
+}
+```
+
+### 8.4 Records para modelos inmutables
+
+Para modelos de datos simples e inmutables, usar `record` en lugar de una clase con campos, getters, `equals()`, `hashCode()` y `toString()` escritos a mano.
+
+#### ✅ Correcto
+
+```java
+public record User(int id, String name, String email) {
+}
+```
+
+#### ❌ Incorrecto
+
+```java
+public class User {
+  private final int id;
+  private final String name;
+  private final String email;
+
+  public User(int id, String name, String email) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof User)) return false;
+    User other = (User) o;
+    return id == other.id
+        && Objects.equals(name, other.name)
+        && Objects.equals(email, other.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, email);
+  }
+
+  @Override
+  public String toString() {
+    return "User{id=" + id + ", name='" + name + "', email='" + email + "'}";
+  }
+}
+```
+
+* 👉 `record` genera automáticamente el constructor, los accesores (`id()`, `name()`, `email()`), `equals()`, `hashCode()` y `toString()`.
+
 ## 🔥 Conclusión rápida
 
 - `PascalCase` → clases
